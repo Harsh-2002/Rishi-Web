@@ -9,11 +9,11 @@ Static portfolio site for Rishi Vishwakarma, motion designer based in Mumbai. De
 ## Structure
 
 ```
-index.html          — markup only, no inline styles or scripts
-assets/
-  css/style.css     — all styles
-  js/main.js        — all interactivity
+index.html                  — markup only, no inline styles or scripts
+style.css                   — all styles
+main.js                     — all interactivity
 CLAUDE.md
+.github/workflows/deploy.yml
 ```
 
 ## Serving locally
