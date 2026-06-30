@@ -195,13 +195,14 @@
     }
 
     .hero-name {
-      font-size: clamp(52px, 10.5vw, 130px);
+      font-size: clamp(28px, 9.5vw, 130px);
       font-weight: 900;
       letter-spacing: -0.035em;
-      line-height: 0.9;
+      line-height: 0.92;
       color: var(--text);
       margin-bottom: 36px;
-      overflow-wrap: break-word;
+      word-break: keep-all;
+      overflow-wrap: normal;
     }
 
     /* scramble hides until JS runs */
@@ -422,16 +423,17 @@
 
     .contact-email {
       display: block;
-      font-size: clamp(24px, 5vw, 62px);
+      font-size: clamp(18px, 4.2vw, 62px);
       font-weight: 900;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
       color: var(--text);
       margin-bottom: 52px;
-      word-break: break-all;
+      overflow-wrap: anywhere;
+      word-break: break-word;
       transition: color 0.2s;
       position: relative;
-      width: fit-content;
+      width: 100%;
     }
     .contact-email::after {
       content: '';
