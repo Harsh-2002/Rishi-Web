@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#F7F6EC" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14130C" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="Rishi Vishwakarma — Motion Designer based in Mumbai. Available for freelance projects." />
+  <title>Rishi Vishwakarma — Motion Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23F7F6EC'/%3E%3Ctext x='16' y='23' font-family='Helvetica Neue,Helvetica,Arial,sans-serif' font-weight='900' font-size='14' fill='%231238E8' text-anchor='middle' letter-spacing='-0.5'%3ERV%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    /* ─────────────────────────────────────────
+       TOKENS — Light (default)
+    ───────────────────────────────────────── */
+    :root {
+      --bg:        #F7F6EC;   /* warm Notion cream */
+      --bg-alt:    #EEEEE0;   /* clearly distinct panel bg */
+      --text:      #0F0F0C;   /* near-black, max contrast */
+      --muted:     #4A4A3C;   /* darkened: ~6.5:1 on --bg */
+      --accent:    #1238E8;   /* blue, passes AA on cream */
+      --accent-dim:#3A5FFF;
+      --border:    #B8B7A0;   /* visible divider */
+      --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono: 'Space Mono', 'Courier New', monospace;
+      --pad-x: clamp(20px, 6vw, 120px);
+      --section-gap: clamp(80px, 12vw, 140px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:        #14130C;
+        --bg-alt:    #1C1B13;
+        --text:      #F0EDE0;
+        --muted:     #AAAAAA;   /* lightened: ~5.8:1 on dark bg */
+        --accent:    #6B9DFF;   /* brighter blue on dark */
+        --accent-dim:#4D7FFF;
+        --border:    #3C3C2C;
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       BASE
+    ───────────────────────────────────────── */
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Space Mono bold on all label elements */
+    .hero-kicker, .hero-scroll-hint, .section-tag span,
+    .work-idx, .work-tags, .contact-link, .copyright {
+      font-weight: 700;
+    }
+
+    /* ─────────────────────────────────────────
+       LAYOUT
+    ───────────────────────────────────────── */
+    .wrap {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    section { padding: var(--section-gap) 0; }
+
+    /* ─────────────────────────────────────────
+       GRADIENT BACKGROUND
+    ───────────────────────────────────────── */
+    body {
+      background-image: radial-gradient(
+        ellipse at 28% 18%,
+        #EDE8C0 0%,
+        #F7F6EC 48%,
+        #E8EDF8 100%
+      );
+      background-attachment: fixed;
+    }
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-image: radial-gradient(
+          ellipse at 28% 18%,
+          #201E0E 0%,
+          #14130C 48%,
+          #0D1020 100%
+        );
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       NOISE OVERLAY
+    ───────────────────────────────────────── */
+    #noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9990;
+      opacity: 0.032;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 220px 220px;
+    }
+    @media (prefers-color-scheme: dark) {
+      #noise { opacity: 0.055; }
+    }
+
+    /* ─────────────────────────────────────────
+       CIRCLE CURSOR (desktop only)
+    ───────────────────────────────────────── */
+    @media (pointer: fine) {
+      body { cursor: none; }
+    }
+
+    #cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 28px; height: 28px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1),
+                  height 0.3s cubic-bezier(0.16,1,0.3,1),
+                  border-color 0.3s ease;
+      will-change: left, top;
+      display: none;
+    }
+    #cursor-dot {
+      position: fixed;
+      top: 0; left: 0;
+      width: 5px; height: 5px;
+      background: var(--text);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+      transition: transform 0.2s ease, background 0.2s ease;
+      will-change: left, top;
+      display: none;
+    }
+    @media (pointer: fine) {
+      #cursor-ring { display: block; }
+      #cursor-dot  { display: block; }
+    }
+    body.cur-link #cursor-ring {
+      width: 48px; height: 48px;
+      border-color: var(--accent);
+      border-width: 1.5px;
+    }
+    body.cur-link #cursor-dot {
+      background: var(--accent);
+      transform: translate(-50%, -50%) scale(1.8);
+    }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    #hero {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-kicker {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.15s forwards;
+    }
+
+    .hero-name {
+      font-size: clamp(52px, 10.5vw, 130px);
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 0.9;
+      color: var(--text);
+      margin-bottom: 36px;
+      overflow-wrap: break-word;
+    }
+
+    /* scramble hides until JS runs */
+    .js-scramble { opacity: 0; }
+    .js-scramble.ready { opacity: 1; }
+
+    .hero-rule {
+      height: 2px;
+      background: var(--accent);
+      width: 0;
+      margin-bottom: 28px;
+      animation: lineInOut 2.2s cubic-bezier(0.16,1,0.3,1) 0.7s forwards;
+    }
+    @keyframes lineInOut {
+      0%   { width: 0;    opacity: 1; }
+      40%  { width: 100%; opacity: 1; }
+      70%  { width: 100%; opacity: 1; }
+      100% { width: 100%; opacity: 0; }
+    }
+
+    .hero-tagline {
+      font-size: clamp(15px, 1.8vw, 19px);
+      font-style: normal;
+      color: var(--text);
+      letter-spacing: 0.01em;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 1.1s forwards;
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: clamp(24px, 4vw, 48px);
+      left: var(--pad-x);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeUp 0.6s ease 1.5s forwards;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-scroll-hint::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    /* ─────────────────────────────────────────
+       SECTION META
+    ───────────────────────────────────────── */
+    .section-tag {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .section-tag span {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .section-tag::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 80px;
+    }
+
+    .section-heading {
+      font-size: clamp(36px, 7vw, 88px);
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 0.95;
+      margin-bottom: 48px;
+    }
+
+    /* animated underline rule under headings */
+    .heading-rule {
+      height: 2px;
+      background: var(--border);
+      width: 0;
+      margin-bottom: 52px;
+    }
+    .heading-rule.animate { animation: growRight 0.8s ease forwards; }
+
+    /* ─────────────────────────────────────────
+       ABOUT
+    ───────────────────────────────────────── */
+    #about { background: var(--bg-alt); }
+
+    .about-body {
+      font-size: clamp(17px, 2.2vw, 24px);
+      line-height: 1.65;
+      max-width: 740px;
+      color: var(--text);
+    }
+
+    .about-body a {
+      color: var(--accent);
+      border-bottom: 1px solid currentColor;
+      transition: opacity 0.2s;
+    }
+    .about-body a:hover { opacity: 0.65; }
+
+    .about-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 36px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 3px;
+    }
+    .about-cta::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .about-cta:hover::after { width: 100%; }
+    .about-cta .arrow {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+    .about-cta:hover .arrow { transform: translateX(5px); }
+
+    /* ─────────────────────────────────────────
+       WORK
+    ───────────────────────────────────────── */
+    .work-grid { width: 100%; }
+
+    .work-row {
+      display: grid;
+      grid-template-columns: 56px 1fr max-content;
+      align-items: center;
+      gap: 20px 32px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .work-row.in-view { opacity: 1; transform: translateY(0); }
+
+    /* blue accent line on hover */
+    .work-row::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.45s cubic-bezier(0.16,1,0.3,1);
+    }
+    .work-row:hover::after { width: 100%; }
+
+    .work-idx {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    .work-title {
+      font-size: clamp(20px, 3.2vw, 38px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      transition: color 0.25s;
+    }
+    .work-row:hover .work-title { color: var(--accent); }
+
+    .work-tags {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      text-transform: uppercase;
+      text-align: right;
+      line-height: 1.7;
+    }
+
+    /* tablet: hide tags, 2-col */
+    @media (max-width: 860px) {
+      .work-row { grid-template-columns: 44px 1fr; }
+      .work-tags { display: none; }
+    }
+
+    /* mobile */
+    @media (max-width: 480px) {
+      .work-row { grid-template-columns: 32px 1fr; gap: 12px; padding: 18px 0; }
+    }
+
+    /* ─────────────────────────────────────────
+       CONTACT
+    ───────────────────────────────────────── */
+    #contact { background: var(--bg-alt); }
+
+    .contact-email {
+      display: block;
+      font-size: clamp(24px, 5vw, 62px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 52px;
+      word-break: break-all;
+      transition: color 0.2s;
+      position: relative;
+      width: fit-content;
+    }
+    .contact-email::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .contact-email:hover { color: var(--accent); }
+    .contact-email:hover::after { width: 100%; }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 36px;
+      margin-bottom: 80px;
+    }
+
+    .contact-link {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      position: relative;
+      transition: color 0.2s;
+      padding-bottom: 2px;
+    }
+    .contact-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .contact-link:hover { color: var(--accent); }
+    .contact-link:hover::after { width: 100%; }
+
+
+    /* ─────────────────────────────────────────
+       KEYFRAMES
+    ───────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes growRight { to { width: 100%; } }
+
+    /* ─────────────────────────────────────────
+       REDUCED MOTION
+    ───────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+      .js-scramble { opacity: 1 !important; }
+      .work-row { opacity: 1 !important; transform: none !important; }
+    }
+
+    /* ─────────────────────────────────────────
+       SELECTION COLOR
+    ───────────────────────────────────────── */
+    ::selection { background: var(--accent); color: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- Noise overlay -->
+  <div id="noise" aria-hidden="true"></div>
+  <!-- Circle cursor -->
+  <div id="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-dot"  aria-hidden="true"></div>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section id="hero">
+    <div class="wrap">
+      <p class="hero-kicker">Motion Designer &nbsp;·&nbsp; Mumbai</p>
+      <h1 class="hero-name js-scramble" data-target="RISHI VISHWAKARMA">RISHI VISHWAKARMA</h1>
+      <div class="hero-rule"></div>
+      <p class="hero-tagline">Available for freelance &amp; collaboration</p>
+    </div>
+    <p class="hero-scroll-hint">Scroll</p>
+  </section>
+
+  <!-- ═══════════════ ABOUT ═══════════════ -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-tag"><span>01 — About</span></div>
+      <h2 class="section-heading js-scramble" data-target="ABOUT">ABOUT</h2>
+      <div class="heading-rule"></div>
+      <p class="about-body">
+        I'm a motion designer based in Mumbai with a year of full-time experience crafting
+        visuals that move. Currently at <a href="https://www.aurakomms.com/" target="_blank" rel="noopener">Aura&nbsp;Komms</a>
+        and <a href="https://aurashots.com/" target="_blank" rel="noopener">Aura&nbsp;Shots</a>,
+        I've worked with clients including ICICI&nbsp;Bank on video production and graphic design.
+        I collaborate with editors and designers across disciplines — and I'm always open to
+        freelance work and new opportunities.
+      </p>
+      <a class="about-cta" href="https://drive.google.com/drive/folders/11loISUzFmAqY8tekxa1Rw-aNg8nqAna3" target="_blank" rel="noopener">
+        View Work &amp; Resume <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════ WORK ═══════════════ -->
+  <section id="work">
+    <div class="wrap">
+      <div class="section-tag"><span>02 — Work</span></div>
+      <h2 class="section-heading js-scramble" data-target="WORK">WORK</h2>
+      <div class="heading-rule"></div>
+      <div class="work-grid">
+        <div class="work-row">
+          <span class="work-idx">01</span>
+          <span class="work-title">Motion Design</span>
+          <span class="work-tags">Titles · Loops<br>Transitions · Storytelling</span>
+        </div>
+        <div class="work-row">
+          <span class="work-idx">02</span>
+          <span class="work-title">Video Editing</span>
+          <span class="work-tags">Long-form · Reels<br>Commercial Cuts</span>
+        </div>
+        <div class="work-row">
+          <span class="work-idx">03</span>
+          <span class="work-title">Graphic Design</span>
+          <span class="work-tags">Brand Assets<br>Layouts · Identity</span>
+        </div>
+        <div class="work-row">
+          <span class="work-idx">04</span>
+          <span class="work-title">Photo Editing</span>
+          <span class="work-tags">Retouching<br>Compositing · Color</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CONTACT ═══════════════ -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-tag"><span>03 — Contact</span></div>
+      <h2 class="section-heading js-scramble" data-target="LET'S WORK">LET'S WORK</h2>
+      <div class="heading-rule"></div>
+      <a class="contact-email" href="mailto:rishivishwakarma018@gmail.com">
+        rishivishwakarma018@gmail.com
+      </a>
+      <div class="contact-links">
+        <a class="contact-link" href="https://www.instagram.com/motionmesterji" target="_blank" rel="noopener">Instagram</a>
+        <a class="contact-link" href="https://www.behance.net/brishivishwak" target="_blank" rel="noopener">Behance</a>
+        <a class="contact-link" href="https://www.linkedin.com/in/brahman-rishi-vishwakarma-14731b389/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="contact-link" href="https://drive.google.com/drive/folders/11loISUzFmAqY8tekxa1Rw-aNg8nqAna3" target="_blank" rel="noopener">Resume &amp; Work ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    'use strict';
+
+
+    /* ── Circle cursor ── */
+    const ring = document.getElementById('cursor-ring');
+    const dot  = document.getElementById('cursor-dot');
+    if (ring && window.matchMedia('(pointer: fine)').matches) {
+      let rx = window.innerWidth / 2, ry = window.innerHeight / 2;
+      let mx = rx, my = ry;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+      });
+
+      (function animRing() {
+        rx += (mx - rx) * 0.10;
+        ry += (my - ry) * 0.10;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(animRing);
+      })();
+
+      document.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cur-link'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cur-link'));
+      });
+    }
+
+    /* ────────────────────────────────────
+       SCRAMBLE TEXT
+    ──────────────────────────────────── */
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!#@&*%';
+
+    function scramble(el) {
+      const target = el.dataset.target || el.textContent.trim();
+      let frame = null;
+      let iter  = 0;
+      const total = target.replace(/\s/g, '').length;
+      const speed = 1.8;
+
+      el.classList.add('ready');
+
+      clearInterval(frame);
+      frame = setInterval(() => {
+        el.textContent = target
+          .split('')
+          .map((ch, i) => {
+            if (ch === ' ' || ch === "'") return ch;
+            /* characters to the left of cursor are resolved */
+            const nonSpaceIdx = target.slice(0, i + 1).replace(/[\s']/g, '').length - (ch === ' ' || ch === "'" ? 1 : 0);
+            if (nonSpaceIdx < Math.floor(iter)) return ch;
+            return CHARS[Math.floor(Math.random() * CHARS.length)];
+          })
+          .join('');
+
+        if (iter >= total) {
+          clearInterval(frame);
+          el.textContent = target;
+        }
+        iter += speed;
+      }, 32);
+    }
+
+    /* ────────────────────────────────────
+       INTERSECTION OBSERVER — headings
+    ──────────────────────────────────── */
+    const headings = Array.from(document.querySelectorAll('.js-scramble'));
+
+    /* Hero fires on load after a short delay */
+    window.addEventListener('load', () => {
+      if (headings[0]) setTimeout(() => scramble(headings[0]), 280);
+    });
+
+    /* Remaining headings fire on scroll */
+    const headingObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        scramble(entry.target);
+        /* trigger the heading-rule line under it */
+        const rule = entry.target.nextElementSibling;
+        if (rule && rule.classList.contains('heading-rule')) {
+          setTimeout(() => rule.classList.add('animate'), 380);
+        }
+        headingObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.25 });
+
+    headings.slice(1).forEach(el => {
+      el.classList.add('ready'); /* keep visible for observer */
+      headingObserver.observe(el);
+    });
+
+    /* ────────────────────────────────────
+       INTERSECTION OBSERVER — work rows
+    ──────────────────────────────────── */
+    const workRows = document.querySelectorAll('.work-row');
+
+    const rowObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        /* find index among siblings for stagger */
+        const siblings = Array.from(entry.target.parentElement.children);
+        const idx = siblings.indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('in-view'), idx * 90);
+        rowObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+
+    workRows.forEach(row => rowObserver.observe(row));
+  </script>
+</body>
+</html>
