@@ -255,6 +255,12 @@ body.cur-link #cursor-dot {
   text-transform: uppercase;
   color: var(--accent);
 }
+.section-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
 .section-tag::after {
   content: '';
   flex: 1;
@@ -327,6 +333,62 @@ body.cur-link #cursor-dot {
   transition: transform 0.25s ease;
 }
 .about-cta:hover .arrow { transform: translateX(5px); }
+
+/* ─────────────────────────────────────────
+   PHILOSOPHY
+───────────────────────────────────────── */
+.philosophy-statement {
+  font-size: clamp(26px, 4.4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.24;
+  max-width: 880px;
+  color: var(--text);
+}
+.philosophy-statement .accent { color: var(--accent); }
+
+.philosophy-sub {
+  font-size: clamp(15px, 1.8vw, 19px);
+  line-height: 1.65;
+  max-width: 620px;
+  color: var(--muted);
+  margin-top: 28px;
+}
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-up.in-view { opacity: 1; transform: translateY(0); }
+.philosophy-sub.reveal-up { transition-delay: 0.12s; }
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid var(--border);
+  margin-top: var(--section-gap);
+  padding: 22px 0;
+}
+.marquee-track {
+  display: inline-block;
+  font-size: 0; /* collapses whitespace between .marquee-seq spans so the loop seam matches the internal rhythm exactly */
+  animation: marqueeScroll 90s linear infinite;
+}
+.marquee-group { display: inline-block; }
+.marquee-seq {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
 
 /* ─────────────────────────────────────────
    WORK

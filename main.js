@@ -105,3 +105,18 @@ const rowObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.15 });
 
 workRows.forEach(row => rowObserver.observe(row));
+
+/* ────────────────────────────────────
+   INTERSECTION OBSERVER — reveal-up elements
+──────────────────────────────────── */
+const revealEls = document.querySelectorAll('.reveal-up');
+
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('in-view');
+    revealObserver.unobserve(entry.target);
+  });
+}, { threshold: 0.25 });
+
+revealEls.forEach(el => revealObserver.observe(el));
