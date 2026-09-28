@@ -315,35 +315,32 @@ body.cur-link #cursor-dot {
 }
 .about-body a:hover { opacity: 0.65; }
 
-.about-cta {
+.resume-btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   margin-top: 36px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
+  padding: 12px 18px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
   text-decoration: none;
-  position: relative;
-  padding-bottom: 3px;
+  transition: border-color 0.25s, color 0.25s;
 }
-.about-cta::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 0; height: 1px;
-  background: var(--accent);
-  transition: width 0.35s cubic-bezier(0.16,1,0.3,1);
+.resume-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.resume-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
-.about-cta:hover::after { width: 100%; }
-.about-cta .arrow {
-  display: inline-block;
-  transition: transform 0.25s ease;
+
+.resume-btn span {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
-.about-cta:hover .arrow { transform: translateX(5px); }
 
 /* ─────────────────────────────────────────
    PHILOSOPHY
@@ -469,51 +466,23 @@ body.cur-link #cursor-dot {
 }
 @media (max-width: 480px) {
   .work-row { grid-template-columns: 32px 1fr; gap: 12px; padding: 18px 0; }
-  .tools-group { margin-top: 36px; }
   .tools-grid { gap: 12px 10px; }
   .tool-chip { padding: 9px 14px; gap: 8px; }
   .tool-icon { width: 16px; height: 16px; }
   .tool-icon--stroke { width: 15px; height: 15px; }
   .tool-chip span { font-size: 12px; }
   .hero-logo { width: 32px; height: 32px; }
+  .resume-btn { padding: 9px 14px; gap: 8px; }
+  .resume-icon { width: 16px; height: 16px; }
+  .resume-btn span { font-size: 13px; }
 }
 
-.featured-video-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 32px;
-  padding-bottom: 3px;
-  position: relative;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.featured-video-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--accent);
-  transition: width 0.35s cubic-bezier(0.16,1,0.3,1);
-}
-.featured-video-link:hover::after { width: 100%; }
-.featured-video-link .arrow {
-  display: inline-block;
-  transition: transform 0.25s ease;
-}
-.featured-video-link:hover .arrow { transform: translateX(5px); }
 
 /* ─────────────────────────────────────────
    TOOLS
 ───────────────────────────────────────── */
-.tools-group { margin-top: 48px; }
-.tools-group:first-of-type { margin-top: 0; }
+.tools-group { margin-top: 0; }
+.tools-group + .tools-group { margin-top: 48px; }
 
 .tools-cat {
   font-family: var(--font-mono);
@@ -521,15 +490,6 @@ body.cur-link #cursor-dot {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 22px;
-}
-
-.tools-sub {
-  font-size: clamp(14px, 1.6vw, 17px);
-  line-height: 1.6;
-  max-width: 560px;
-  color: var(--muted);
-  margin-top: -8px;
   margin-bottom: 22px;
 }
 
@@ -564,8 +524,15 @@ body.cur-link #cursor-dot {
 }
 .tool-icon--stroke { width: 17px; height: 17px; }
 
-.tools-group:nth-of-type(2) { transition-delay: 0.1s; }
-.tools-group:nth-of-type(3) { transition-delay: 0.2s; }
+/* Stagger the groups off each other. Structural, not positional: the Tools
+   section also contains .section-tag and .heading-rule divs, so :nth-of-type()
+   counted those and never matched these groups. */
+.tools-group + .tools-group { transition-delay: 0.1s; }
+.tools-group + .tools-group + .tools-group { transition-delay: 0.2s; }
+
+@media (max-width: 480px) {
+  .tools-group + .tools-group { margin-top: 36px; }
+}
 
 /* ─────────────────────────────────────────
    CONTACT
@@ -663,3 +630,21 @@ body.cur-link #cursor-dot {
    SELECTION COLOR
 ───────────────────────────────────────── */
 ::selection { background: var(--accent); color: #fff; }
+
+/* ─────────────────────────────────────────
+   NO-JS FALLBACK
+   Head sets .js on <html> before first paint. If that inline
+   script is blocked, or main.js never runs, the reveal states
+   below would leave the whole page invisible and kill the
+   pointer — so undo them for the no-.js case only.
+   Must stay last: it overrides earlier rules.
+───────────────────────────────────────── */
+html:not(.js) body { cursor: auto !important; }
+html:not(.js) .js-scramble,
+html:not(.js) .reveal-up,
+html:not(.js) .work-row {
+  opacity: 1 !important;
+  transform: none !important;
+}
+html:not(.js) #cursor-ring,
+html:not(.js) #cursor-dot { display: none !important; }
