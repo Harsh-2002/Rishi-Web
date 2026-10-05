@@ -120,3 +120,16 @@ const revealObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.25 });
 
 revealEls.forEach(el => revealObserver.observe(el));
+
+/* ────────────────────────────────────
+   PROJECT CARDS
+   Deliberately no click handler here. Each card is a plain
+   <a href="https://www.youtube.com/watch?v=…" target="_blank">, so the
+   browser opens the video on YouTube in a new tab and this site never
+   loads the YouTube player. An earlier version intercepted the click and
+   opened an in-page <dialog> with a youtube-nocookie embed, which failed
+   with player error 153 (YouTube rejects embed requests whose Referer /
+   Origin it cannot verify). Do not reintroduce an embed, an iframe, or a
+   modal here without asking.
+──────────────────────────────────── */
+

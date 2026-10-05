@@ -335,6 +335,18 @@ body.cur-link #cursor-dot {
   flex-shrink: 0;
 }
 
+/* Same glyph, boxed in a thin circle so the 1.3 CTA reads as "images"
+   rather than "document". Padding keeps the 24-unit glyph optically the
+   same size as the About button's flat 18px icon. */
+.resume-icon--disc {
+  box-sizing: border-box;
+  width: 26px;
+  height: 26px;
+  padding: 3.5px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
 .resume-btn span {
   font-family: var(--font-sans);
   font-size: 14px;
@@ -399,6 +411,237 @@ body.cur-link #cursor-dot {
 }
 
 /* ─────────────────────────────────────────
+   EDITED WORK (section tag: 04 - Project)
+   Video thumbnail grid. Each card is a plain <a> to the video's YouTube
+   watch URL with target="_blank", so a click opens YouTube in a new tab
+   and this site never loads the YouTube player. Images are lazy-loaded
+   and sized in markup so the grid never shifts while they arrive.
+───────────────────────────────────────── */
+/* Sub-label directly under the heading. Mirrors .philosophy-sub's role:
+   quiet, muted, sits above the grid. */
+.projects-lede {
+  font-family: var(--font-mono);
+  font-size: clamp(12px, 1.4vw, 14px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+/* Breathing room above a sub-label that follows a grid (1.2 sits under 1.1).
+   Scoped to a separate class so the 1.1 label keeps its original spacing. */
+.projects-lede--sub { margin-top: 72px; }
+
+/* 1.3 photo and 1.4 graphic cards reuse the video card component untouched.
+   The only shared difference is the hover circle: a gallery glyph instead of
+   a play triangle, plus the margin reset below that optically centres the
+   triangle. Their frame and fit are handled in the next block. */
+.project-card--photo .project-play svg,
+.project-card--still .project-play svg { margin-left: 0; }
+
+/* 1.3 and 1.4 hold real creative stills, not video thumbnails, so they share
+   ONE square frame that fits with `contain` instead of the 16:9 `cover` that
+   1.1 and 1.2 keep. Square is the neutral compromise for this exact set — two
+   3:2 landscapes and six portrait/square creatives — so nothing is ever cut
+   and no image loses more than about a third of its frame on one axis. The
+   frame keeps `.project-thumb`'s own `background: var(--bg-alt)`, so the fit
+   bars read as a deliberate mount rather than a missing image.
+
+   The old `object-position: 50% 30%` crop anchor is gone: it only existed to
+   rescue 1.3's portraits from `cover`, and `contain` shows the whole frame
+   anyway. 1.1 and 1.2 are untouched and keep 16:9 `cover`. */
+.project-card--photo .project-thumb,
+.project-card--still .project-thumb { aspect-ratio: 1 / 1; }
+.project-card--photo .project-thumb img,
+.project-card--still .project-thumb img {
+  object-fit: contain;
+  object-position: center;
+}
+
+/* "More Images" CTA under 1.3. It is the About .resume-btn verbatim — same
+   pill, same border, same hover — so only the row is new: centring it and
+   clearing the button's own top margin, which was sized for the About bio. */
+.projects-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+.projects-more .resume-btn { margin-top: 0; }
+
+/* Breathing space between Section 04's More Images CTA and Section 05. Both
+   sections stack their own `padding: var(--section-gap) 0`, so the visible
+   gap here is twice the token (280px at desktop) and reads as a hole after
+   the CTA. Trimming only this boundary's bottom padding by ~34% leaves the
+   premium air intact. The ramp is the same clamp() shape as the token so it
+   scales identically at every breakpoint, holding the trim to a steady
+   30-34% rather than over-cutting on small screens. Do not zero it, and do
+   not move it into the `section` rule — every other boundary keeps the full
+   token. */
+#projects { padding-bottom: clamp(32px, 4vw, 44px); }
+
+/* Four equal columns on desktop so the first four videos always sit on a
+   single row; the fifth wraps to a second row and stays the same size,
+   left-aligned, because every track is 1fr. Fixed tracks (not auto-fit)
+   are deliberate: auto-fit reflows to three columns at this container
+   width and would break the four-across row. */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 24px;
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  /* Grid items stretch by default, so cards in a row share its height.
+     The meta line is pushed down so labels stay aligned across cards
+     even when a longer title wraps to two lines. */
+  height: 100%;
+}
+.project-card .project-meta { margin-top: auto; }
+
+.project-index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.project-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.35s cubic-bezier(0.16,1,0.3,1),
+              border-color 0.35s ease;
+}
+
+.project-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1);
+  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* Dark wash that deepens on hover so the overlay text and play icon
+   stay legible over any thumbnail. */
+.project-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.34) 46%, rgba(0,0,0,0.12) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+/* Small centred play glyph. Grows slightly on hover — kept subtle so the
+   effect reads as cinematic rather than flashy. */
+.project-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.62);
+  background: rgba(0,0,0,0.42);
+  backdrop-filter: blur(3px);
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.86);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+}
+.project-play svg { width: 17px; height: 17px; margin-left: 2px; }
+
+/* Project information that rises into view over the thumbnail. */
+.project-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 14px 12px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+}
+.project-overlay-cat {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.78);
+}
+.project-overlay-play {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Hover: lift the frame, scale the image inside it, fade in the scrim,
+   play icon and info. Gated behind (hover: hover) so tapping a card on a
+   touch device does not leave it stuck in the hovered state. */
+@media (hover: hover) {
+  .project-card:hover .project-thumb {
+    transform: scale(1.035);
+    border-color: var(--accent);
+    box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.55);
+  }
+  .project-card:hover .project-thumb img { transform: scale(1.07); }
+  .project-card:hover .project-scrim { opacity: 1; }
+  .project-card:hover .project-play { opacity: 1; transform: scale(1); }
+  .project-card:hover .project-overlay { opacity: 1; transform: translateY(0); }
+}
+
+/* Keyboard parity — focus gets the same treatment as hover. */
+.project-card:focus-visible .project-thumb {
+  transform: scale(1.035);
+  border-color: var(--accent);
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.55);
+}
+.project-card:focus-visible .project-thumb img { transform: scale(1.07); }
+.project-card:focus-visible .project-scrim { opacity: 1; }
+.project-card:focus-visible .project-play { opacity: 1; transform: scale(1); }
+.project-card:focus-visible .project-overlay { opacity: 1; transform: translateY(0); }
+
+.project-title {
+  font-size: clamp(16px, 1.8vw, 21px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.project-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  /* 0.06em, not the 0.16em used elsewhere. The meta line carries three
+     segments ("Category · 19 min · 919K views"); at 0.16em the longest card
+     needs ~293px inside a 259px track and wraps to two lines, which pushed
+     the row's cards to uneven heights. At 0.06em the longest string needs
+     ~254px, so it stays on one line with room to spare. */
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─────────────────────────────────────────
    WORK
 ───────────────────────────────────────── */
 .work-grid { width: 100%; }
@@ -460,12 +703,22 @@ body.cur-link #cursor-dot {
   line-height: 1.7;
 }
 
+/* Tablet: four across gets cramped, step down to two columns. */
+@media (max-width: 1024px) {
+  .project-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 860px) {
   .work-row { grid-template-columns: 44px 1fr; }
   .work-tags { display: none; }
+  /* Mobile: one immersive full-width column. */
+  .project-grid { grid-template-columns: 1fr; }
+  .project-title { font-size: clamp(17px, 4.6vw, 22px); }
 }
 @media (max-width: 480px) {
   .work-row { grid-template-columns: 32px 1fr; gap: 12px; padding: 18px 0; }
+  /* Single column is already set at 860px; only the row gap tightens. */
+  .project-grid { gap: 24px; }
   .tools-grid { gap: 12px 10px; }
   .tool-chip { padding: 9px 14px; gap: 8px; }
   .tool-icon { width: 16px; height: 16px; }
@@ -474,6 +727,7 @@ body.cur-link #cursor-dot {
   .hero-logo { width: 32px; height: 32px; }
   .resume-btn { padding: 9px 14px; gap: 8px; }
   .resume-icon { width: 16px; height: 16px; }
+  .resume-icon--disc { width: 24px; height: 24px; padding: 3px; }
   .resume-btn span { font-size: 13px; }
 }
 
@@ -622,8 +876,15 @@ body.cur-link #cursor-dot {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
-  .js-scramble { opacity: 1 !important; }
-  .work-row { opacity: 1 !important; transform: none !important; }
+    .js-scramble { opacity: 1 !important; }
+    .work-row { opacity: 1 !important; transform: none !important; }
+    .reveal-up { opacity: 1 !important; transform: none !important; }
+    .project-thumb,
+    .project-thumb img { transform: none !important; }
+    /* Keep the hover information readable without motion. */
+    .project-scrim,
+    .project-play,
+    .project-overlay { opacity: 1 !important; transform: none !important; }
 }
 
 /* ─────────────────────────────────────────
